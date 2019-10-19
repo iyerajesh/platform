@@ -1,4 +1,4 @@
-package com.xylia.platform.discovery.discovery
+package com.xylia.platform.discovery
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

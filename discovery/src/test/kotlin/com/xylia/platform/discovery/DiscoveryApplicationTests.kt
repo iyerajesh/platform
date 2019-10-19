@@ -1,4 +1,4 @@
-package com.xylia.platform.discovery.discovery
+package com.xylia.platform.discovery
 
 import org.junit.Test
 import org.junit.runner.RunWith

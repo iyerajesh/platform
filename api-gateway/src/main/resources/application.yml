@@ -1,5 +1,3 @@
-hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
-
 spring:
   application:
     name: api-gateway
@@ -46,4 +44,55 @@ management:
   endpoint:
     health:
       show-details: always
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
 
+---
+spring:
+  profiles:
+    docker
+  application:
+    name: api-gateway
+server:
+  port: 9090
+
+  cloud:
+    gateway:
+      routes:
+        - id: book-store
+          uri: lb://book-store
+          predicates:
+            - Path=/api/books/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@userKeyResolver}'
+                redis-rate-limiter.replenishRate: 2
+                redis-rate-limiter.burstCapacity: 2
+            - RewritePath=/api/(?<books>.*), /$\{books}
+            - name: Hystrix
+              args:
+                name: booksFallbackCommand
+                fallbackUri: forward:/fallback/books
+
+jwt:
+  key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDatDQ+zxw4qZfAOUroVWApUfLFUaGPP4eIEO20LyotqDIr0OBkVs1GGG8X3GgD4g+woQWRpm8nDE/qsLmmhhLHi/BgwyYuNGPEPdgcDBpyaLPtM6Cr933zjVC/M4nDiNqcq8EXMvF+y7b3AJmUG/Se9O9gLW4eVhhNqp4QbEd1uwIDAQAB
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://docker.for.mac.localhost:8888/eureka
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: heapdump, loggers, prometheus, threaddump, info, metrics, health, hystrix.stream
+  health:
+    defaults:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
