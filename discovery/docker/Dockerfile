@@ -7,4 +7,4 @@ RUN set -ex \
 RUN mkdir /discovery
 COPY /target/*.jar /discovery/discovery.jar
 WORKDIR /discovery
-CMD ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=docker", "discovery.jar"]
+CMD ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=gke", "discovery.jar"]

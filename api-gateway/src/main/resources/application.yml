@@ -49,7 +49,7 @@ hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 20
 ---
 spring:
   profiles:
-    docker
+    gke
   application:
     name: api-gateway
 server:

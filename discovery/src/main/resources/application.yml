@@ -23,6 +23,6 @@ eureka:
 
 spring:
   profiles:
-    docker
+    gke
   application:
     name: eureka-discovery
