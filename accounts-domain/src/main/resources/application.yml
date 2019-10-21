@@ -1,0 +1,37 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: accounts
+  data:
+    mongodb:
+#      uri: mongodb://localhost:27017/accounts
+       uri: mongodb+srv://demo-user:ir26l1Y02MW3IpHB@xylia-cluster-ii5ek.gcp.mongodb.net/test
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    topic:
+      accounts-customer: accounts.customer.change
+    consumer:
+      group-id: accounts
+      auto-offset-reset: earliest
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  level:
+    root: INFO
+---
+server:
+  port: 8080
+spring:
+  profiles: gke
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/accounts
+  kafka:
+    bootstrap-servers: kafka:9092
+logging:
+  level:
+    root: INFO

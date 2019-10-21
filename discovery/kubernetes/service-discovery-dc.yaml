@@ -5,7 +5,6 @@ metadata:
   labels:
     app: discovery
   name: discovery
-  namespace: xylia-cluster
 spec:
   ports:
     - port: 8888
@@ -41,10 +40,10 @@ spec:
           image: iyerajesh/discovery:latest
           resources:
             requests:
-              memory: "250M"
+              memory: "500M"
               cpu: "100m"
             limits:
-              memory: "400M"
+              memory: "600M"
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
