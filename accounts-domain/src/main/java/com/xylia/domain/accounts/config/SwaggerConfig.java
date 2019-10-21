@@ -30,14 +30,13 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("Customer Domain - Customer API")
-                .description("Customer Domain application, backed by MongoDB and Kafka.")
+                .title("Accounts Domain - Accounts API")
+                .description("Accounts domain CQRS application, backed by MongoDB and Kafka.")
                 .contact(new Contact(
-                        "Rajesh Iyer",
-                        "https://programmaticponderings.com/about",
+                        "Rajesh Iyer", "",
                         "iyerajesh@gmail.com"))
                 .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/garystafford/storefront-demo-accounts/blob/master/LICENSE")
+                .licenseUrl("https://github.com/iyerajesh/platform/LICENSE")
                 .version("1.0.0")
                 .build();
     }

@@ -9,16 +9,31 @@ spring:
     mongodb:
 #      uri: mongodb://localhost:27017/accounts
        uri: mongodb+srv://demo-user:ir26l1Y02MW3IpHB@xylia-cluster-ii5ek.gcp.mongodb.net/test
+
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: pkc-43n10.us-central1.gcp.confluent.cloud:9092
     topic:
       accounts-customer: accounts.customer.change
     consumer:
       group-id: accounts
       auto-offset-reset: earliest
-
-kafka:
-  broker: local
+    properties:
+      request:
+        timeout:
+          ms: 20000
+      retry:
+        backoff:
+          ms: 500
+      ssl:
+        endpoint:
+          identification:
+            algorithm: https
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="<CLUSTER_API_KEY>" password="<CLUSTER_API_SECRET>";
+      security:
+        protocol: SASL_SSL
 
   management:
   endpoints:
