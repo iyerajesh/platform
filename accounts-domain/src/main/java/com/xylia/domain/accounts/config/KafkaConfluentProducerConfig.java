@@ -19,7 +19,7 @@ import java.util.Map;
 @Configuration
 @Profile("gke")
 @EnableKafka
-public class KafkaConfluentProducerConfig implements SenderConfig {
+public class KafkaConfluentProducerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -43,7 +43,6 @@ public class KafkaConfluentProducerConfig implements SenderConfig {
     private String saslJaasConfig;
 
     @Bean
-    @Override
     public Map<String, Object> producerConfigs() {
 
         Map<String, Object> props = new HashMap<>();
@@ -61,13 +60,11 @@ public class KafkaConfluentProducerConfig implements SenderConfig {
     }
 
     @Bean
-    @Override
     public ProducerFactory<String, CustomerChangeEvent> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    @Override
     public KafkaTemplate<String, CustomerChangeEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }

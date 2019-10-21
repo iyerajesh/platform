@@ -17,6 +17,8 @@ spring:
       group-id: accounts
       auto-offset-reset: earliest
 
+kafka:
+  broker: local
 
   management:
   endpoints:
@@ -36,6 +38,10 @@ spring:
       uri: mongodb://mongo:27017/accounts
   kafka:
     bootstrap-servers: kafka:9092
+
+kafka:
+  broker: ccloud
+
 logging:
   level:
     root: INFO
