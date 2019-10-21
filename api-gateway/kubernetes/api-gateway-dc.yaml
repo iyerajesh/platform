@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: iyerajesh/api-gateway:latest
+          image: gcr.io/xylia-platform/api-gateway:latest
           resources:
             requests:
               memory: "500M"

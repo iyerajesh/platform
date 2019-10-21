@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: accounts
   data:
@@ -14,7 +16,9 @@ spring:
     consumer:
       group-id: accounts
       auto-offset-reset: earliest
-management:
+
+
+  management:
   endpoints:
     web:
       exposure:
@@ -26,6 +30,8 @@ logging:
 server:
   port: 8080
 spring:
+  main:
+    allow-bean-definition-overriding: true
   profiles: gke
   data:
     mongodb:

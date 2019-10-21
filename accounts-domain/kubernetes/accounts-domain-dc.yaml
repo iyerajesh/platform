@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: accounts
-        image: iyerajesh/accounts-domain:latest
+        image: gcr.io/xylia-platform/accounts-domain:latest
         resources:
           requests:
             memory: "500M"
