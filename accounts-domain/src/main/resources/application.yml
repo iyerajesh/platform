@@ -35,11 +35,18 @@ spring:
       security:
         protocol: SASL_SSL
 
-  management:
+management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: heapdump, loggers, prometheus, threaddump, info, metrics, health, hystrix.stream
+  health:
+    defaults:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+
 logging:
   level:
     root: INFO

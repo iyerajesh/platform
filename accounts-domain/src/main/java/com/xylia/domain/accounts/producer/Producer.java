@@ -17,5 +17,7 @@ public class Producer {
 
         log.info("sending payload='{}' to topic='{}'", payload, topic);
         kafkaTemplate.send(topic, payload);
+        log.info("completed payload send!");
+
     }
 }

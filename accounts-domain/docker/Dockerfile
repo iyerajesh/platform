@@ -8,5 +8,3 @@ RUN mkdir /accounts
 COPY /build/libs/*.jar /accounts/accounts.jar
 WORKDIR /accounts
 CMD ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=gke", "accounts.jar"]
-
-# docker run --name accounts-domain -d iyerajesh/accounts-domain:latest
