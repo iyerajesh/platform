@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,8 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Profile("gke")
 @EnableKafka
-public class KafkaProducerConfig {
+public class KafkaConfluentProducerConfig implements SenderConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -41,6 +43,7 @@ public class KafkaProducerConfig {
     private String saslJaasConfig;
 
     @Bean
+    @Override
     public Map<String, Object> producerConfigs() {
 
         Map<String, Object> props = new HashMap<>();
@@ -58,12 +61,13 @@ public class KafkaProducerConfig {
     }
 
     @Bean
+    @Override
     public ProducerFactory<String, CustomerChangeEvent> producerFactory() {
-
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
+    @Override
     public KafkaTemplate<String, CustomerChangeEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
