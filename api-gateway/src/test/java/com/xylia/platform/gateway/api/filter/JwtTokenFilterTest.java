@@ -1,8 +1,6 @@
 package com.xylia.platform.gateway.api.filter;
 
 import com.auth0.jwt.JWTVerifier;
-import com.netflix.loadbalancer.Server;
-import com.xylia.platform.gateway.api.exception.JWTTokenExtractException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,6 @@ import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static com.xylia.platform.gateway.api.filter.JwtTokenFilter.X_JWT_SUBJECT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.InetAddress;
@@ -24,7 +21,6 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -93,7 +89,4 @@ public class JwtTokenFilterTest {
         return exchangeWithToken;
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 }
