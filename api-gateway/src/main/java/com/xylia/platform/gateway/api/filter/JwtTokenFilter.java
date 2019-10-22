@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 import static com.xylia.platform.gateway.api.config.JwtTokenUtil.extractJWTToken;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+@Component
 @Order(0)
 @Slf4j
 public class JwtTokenFilter implements GlobalFilter, Ordered {

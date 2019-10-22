@@ -1,10 +1,14 @@
 package com.xylia.domain.orders.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.xylia.domain.orders.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SampleData {
@@ -77,6 +81,5 @@ public class SampleData {
 
         return customerList;
     }
-
 }
 

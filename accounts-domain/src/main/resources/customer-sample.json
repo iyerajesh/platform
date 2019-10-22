@@ -1,0 +1,51 @@
+{
+  "id": 12345,
+  "name": {
+    "title": "Mr.",
+    "firstName": "John",
+    "middleName": "S.",
+    "lastName": "Doe",
+    "suffix": "Jr."
+  },
+  "contact": {
+    "primaryPhone": "555-666-7777",
+    "secondaryPhone": "555-444-9898",
+    "email": "john.doe@internet.com"
+  },
+  "addresses": [
+    {
+      "type": "BILLING",
+      "description": "My cc billing address",
+      "address1": "123 Oak Street",
+      "address2": null,
+      "city": "Sunrise",
+      "state": "CA",
+      "postalCode": "12345-6789"
+    },
+    {
+      "type": "SHIPPING",
+      "description": "My home address",
+      "address1": "123 Oak Street",
+      "address2": null,
+      "city": "Sunrise",
+      "state": "CA",
+      "postalCode": "12345-6789"
+    }
+  ],
+  "creditCards": [
+    {
+      "type": "PRIMARY",
+      "description": "VISA",
+      "number": "1234-6789-0000-0000",
+      "expiration": "6/19",
+      "nameOnCard": "John S. Doe"
+    },
+    {
+      "type": "ALTERNATE",
+      "description": "Corporate American Express",
+      "number": "9999-8888-7777-6666",
+      "expiration": "3/20",
+      "nameOnCard": "John Doe"
+    }
+  ]
+}
