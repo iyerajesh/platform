@@ -2,6 +2,7 @@ package com.xylia.domain.accounts.producer;
 
 import com.xylia.domain.accounts.model.CustomerChangeEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.errors.CorruptRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,13 @@ public class Producer {
 
     public void send(String topic, CustomerChangeEvent payload) {
 
-        log.info("sending payload='{}' to topic='{}'", payload, topic);
-        kafkaTemplate.send(topic, payload);
-        log.info("completed payload send!");
+        try {
+            log.info("sending payload='{}' to topic='{}'", payload, topic);
+            kafkaTemplate.send(topic, payload);
+            log.info("completed payload send!");
+        } catch (CorruptRecordException e) {
+            log.error("Exception while writing to Kafka: {}", e.getMessage());
+        }
 
     }
 }

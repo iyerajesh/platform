@@ -17,12 +17,12 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @GetMapping("/sample")
+    @GetMapping("/create")
     public ResponseEntity<String> sampleData() {
 
         customerRepository.deleteAll();
         customerRepository.saveAll(createSampleCustomers());
 
-        return new ResponseEntity("Sample customer accounts created", HttpStatus.CREATED);
+        return new ResponseEntity("Customer account created!", HttpStatus.CREATED);
     }
 }

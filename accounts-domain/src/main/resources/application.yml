@@ -31,7 +31,7 @@ spring:
       sasl:
         mechanism: PLAIN
         jaas:
-          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="<CLUSTER_API_KEY>" password="<CLUSTER_API_SECRET>";
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="R3WJ6RVP26CPBWLR" password="M+gI3JYjRNDbg/qJyCZz550rXwUgSqY1Euhy9glWXrhyu9sTPCFTUvfuPPZKUb16";
       security:
         protocol: SASL_SSL
 
@@ -60,9 +60,6 @@ spring:
       uri: mongodb://mongo:27017/accounts
   kafka:
     bootstrap-servers: kafka:9092
-
-kafka:
-  broker: ccloud
 
 logging:
   level:

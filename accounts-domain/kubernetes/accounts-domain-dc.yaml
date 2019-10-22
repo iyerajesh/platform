@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: accounts
-        image: gcr.io/xylia-platform/accounts-domain:2.0.2
+        image: gcr.io/xylia-platform/accounts-domain:2.0.3
         resources:
           requests:
             memory: "800M"
