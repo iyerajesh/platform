@@ -4,6 +4,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -18,7 +19,6 @@ import reactor.core.publisher.Mono;
 import static com.xylia.platform.gateway.api.config.JwtTokenUtil.extractJWTToken;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-@Component
 @Order(0)
 @Slf4j
 public class JwtTokenFilter implements GlobalFilter, Ordered {
@@ -34,7 +34,6 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         try {
-
             String token = extractJWTToken(exchange.getRequest());
             DecodedJWT decodedJWT = jwtVerifier.verify(token);
             ServerHttpRequest mutatedRequest;
@@ -48,10 +47,10 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
                         .build();
 
             return chain.filter(exchange.mutate().request(mutatedRequest).build());
+
         } catch (JWTVerificationException ex) {
             log.error("Error while verifying token!: {}", ex);
             return this.onError(exchange, ex.getMessage());
-
         }
     }
 

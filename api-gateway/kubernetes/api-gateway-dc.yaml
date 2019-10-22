@@ -24,7 +24,7 @@ metadata:
   labels:
     app: api-gateway
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: gcr.io/xylia-platform/api-gateway:2.0.1
+          image: gcr.io/xylia-platform/api-gateway:2.0.5
           resources:
             requests:
               memory: "500M"
@@ -48,8 +48,6 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "gke"
-            - name: SERVER_SERVLET_CONTEXT-PATH
-              value: "/api-gateway"
             - name: LOGGING_LEVEL_ROOT
               value: "INFO"
           ports:
