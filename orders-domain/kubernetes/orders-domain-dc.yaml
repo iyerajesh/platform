@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: gcr.io/xylia-platform/orders-domain:2.0.3
+        image: gcr.io/xylia-platform/orders-domain:2.0.4
         resources:
           requests:
             memory: "800M"
@@ -54,7 +54,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mongodb-atlas
-              key: mongodb.uri.accounts
+              key: mongodb.uri.orders
         - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
           valueFrom:
             configMapKeyRef:

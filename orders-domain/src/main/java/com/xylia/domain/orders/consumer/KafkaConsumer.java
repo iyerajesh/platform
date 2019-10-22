@@ -4,7 +4,6 @@ import com.xylia.domain.orders.model.CustomerOrders;
 import com.xylia.domain.orders.repository.CustomerOrdersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +15,6 @@ public class KafkaConsumer {
 
     @Autowired
     private CustomerOrdersRepository customerOrdersRepository;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
     private CountDownLatch latch = new CountDownLatch(1);
 
     public CountDownLatch getLatch() {
