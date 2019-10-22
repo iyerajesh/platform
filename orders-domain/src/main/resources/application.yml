@@ -1,22 +1,22 @@
 server:
-  port: 8080
+  port: 8085
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: accounts
+    name: orders
   data:
     mongodb:
-#      uri: mongodb://localhost:27017/accounts
-       uri: mongodb+srv://demo-user:ir26l1Y02MW3IpHB@xylia-cluster-ii5ek.gcp.mongodb.net/accounts
+       uri: mongodb+srv://demo-user:ir26l1Y02MW3IpHB@xylia-cluster-ii5ek.gcp.mongodb.net/orders
 
   kafka:
     bootstrap-servers: pkc-43n10.us-central1.gcp.confluent.cloud:9092
     topic:
       accounts-customer: accounts.customer.change
     consumer:
-      group-id: accounts
+      group-id: orders
       auto-offset-reset: earliest
+
     properties:
       request:
         timeout:
@@ -57,7 +57,7 @@ spring:
   profiles: gke
   data:
     mongodb:
-      uri: mongodb://mongo:27017/accounts
+      uri: mongodb://mongo:27017/orders
   kafka:
     bootstrap-servers: kafka:9092
 
