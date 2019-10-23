@@ -1,6 +1,6 @@
-package com.xylia.domain.orders.config;
+package com.xylia.domain.accounts.config;
 
-import com.xylia.domain.orders.annotations.Aggregate;
+import com.xylia.domain.accounts.annotations.Aggregate;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class AggregateProcessor implements BeanPostProcessor {
             public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
                 if (field.getAnnotation(Aggregate.class) != null) {
 
-                    log.info("Aggregate class name: {}", bean.getClass());
+                    log.info("++++++ Aggregate class name: {}", bean.getClass());
                     Logger beanLogger = LoggerFactory.getLogger(bean.getClass());
                     field.setAccessible(true);
                     field.set(bean, log);

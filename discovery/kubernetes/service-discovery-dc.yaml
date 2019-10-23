@@ -14,8 +14,6 @@ spec:
     app: discovery
   sessionAffinity: None
   type: ClusterIP
-status:
-  loadBalancer: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,8 +46,6 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "gke"
-            - name: SERVER_SERVLET_CONTEXT-PATH
-              value: "/discovery"
             - name: LOGGING_LEVEL_ROOT
               value: "INFO"
           ports:

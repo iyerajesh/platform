@@ -25,7 +25,7 @@ public class KafkaConsumer {
     public void receiveCustomerOrder(CustomerOrders customerOrders) {
 
         log.info("received payload='{}'", customerOrders);
-        latch.countDown();
+//        latch.countDown();
         customerOrdersRepository.save(customerOrders);
     }
 

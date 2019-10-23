@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: gcr.io/xylia-platform/api-gateway:2.0.6
+          image: gcr.io/xylia-platform/api-gateway:2.0.8
           resources:
             requests:
               memory: "500M"
@@ -50,6 +50,11 @@ spec:
               value: "gke"
             - name: LOGGING_LEVEL_ROOT
               value: "INFO"
+            - name: ACCOUNTS_COMMAND_URI
+              value: "http://35.243.151.27/"
+            - name: ORDERS_COMMAND_URI
+              value: "http://34.74.58.243/"
+
           ports:
             - containerPort: 9090
           imagePullPolicy: IfNotPresent

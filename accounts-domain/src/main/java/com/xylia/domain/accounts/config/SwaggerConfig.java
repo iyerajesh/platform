@@ -1,4 +1,4 @@
-package com.xylia.domain.orders.config;
+package com.xylia.domain.accounts.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -30,8 +30,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("Orders Domain - Orders API")
-                .description("Orders domain CQRS application, backed by MongoDB and Kafka.")
+                .title("Accounts Domain - Accounts API")
+                .description("Accounts domain CQRS application, backed by MongoDB and Kafka.")
                 .contact(new Contact(
                         "Rajesh Iyer", "",
                         "iyerajesh@gmail.com"))
