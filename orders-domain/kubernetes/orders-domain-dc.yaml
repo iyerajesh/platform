@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: orders
-          image: gcr.io/xylia-platform/orders-domain:2.0.8
+          image: gcr.io/xylia-platform/orders-domain:2.0.10
           resources:
             requests:
               memory: "800M"

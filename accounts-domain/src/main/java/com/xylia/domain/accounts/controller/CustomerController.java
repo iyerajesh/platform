@@ -18,18 +18,9 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @PostMapping("/customer/create")
-    public ResponseEntity<String> createNewAccount(@RequestBody Customer customer) {
+    public ResponseEntity<String> createNewAccount(@RequestBody final Customer customer) {
 
         customerRepository.save(customer);
-        return new ResponseEntity("Customer account created!", HttpStatus.CREATED);
-    }
-
-    @GetMapping("/customer/create")
-    public ResponseEntity<String> sampleData() {
-
-        customerRepository.deleteAll();
-        customerRepository.saveAll(createSampleCustomers());
-
         return new ResponseEntity("Customer account created!", HttpStatus.CREATED);
     }
 
