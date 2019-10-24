@@ -140,3 +140,75 @@ api-gateway   LoadBalancer   10.31.241.201   35.237.18.9     80:30620/TCP   2d18
 kubernetes    ClusterIP      10.31.240.1     <none>          443/TCP        3d22h
 orders        LoadBalancer   10.31.241.237   34.74.58.243    80:32691/TCP   42h
 ```
+
+# Testing the application
+
+The accounts domain service exposes a create customer API, which will allow the creation of a new customer, or updating the information of a existing customer ID. 
+
+```text
+API: POST http://35.243.151.27/accounts/customer/create
+Body: 
+{
+  "id": 123456,
+  "name": {
+    "title": "Mr.",
+    "firstName": "Rajesh",
+    "middleName": "V.",
+    "lastName": "Iyer",
+    "suffix": "Jr."
+  },
+  "contact": {
+    "primaryPhone": "555-666-7777",
+    "secondaryPhone": "555-444-9898",
+    "email": "john.doe@internet.com"
+  },
+  "addresses": [
+    {
+      "type": "BILLING",
+      "description": "My cc billing address",
+      "address1": "123 Oak Street",
+      "address2": null,
+      "city": "Sunrise",
+      "state": "CA",
+      "postalCode": "12345-6789"
+    },
+    {
+      "type": "SHIPPING",
+      "description": "My home address",
+      "address1": "123 Oak Street",
+      "address2": null,
+      "city": "Sunrise",
+      "state": "CA",
+      "postalCode": "12345-6789"
+    }
+  ],
+  "creditCards": [
+    {
+      "type": "PRIMARY",
+      "description": "VISA",
+      "number": "1234-6789-0000-0000",
+      "expiration": "6/19",
+      "nameOnCard": "John S. Doe"
+    },
+    {
+      "type": "ALTERNATE",
+      "description": "Corporate American Express",
+      "number": "9999-8888-7777-6666",
+      "expiration": "3/20",
+      "nameOnCard": "John Doe"
+    }
+  ]
+}
+
+```
+
+The accounts domain emits a `CustomerChangeEvent` into the `accounts.customer.change` kafka topic. The orders domain service consumes the message, and updates its data model, with the customer information.
+
+The orders micro service exposes a listing API, and a Details API which gives a list of all the customer orders in the orders database in MongoDB.
+
+```text
+Listing API: GET http://34.74.58.243/orders/list
+Details API: GET http://34.74.58.243/orders/order/123456
+```
+
+The `postman` directory in the root of the project, contains the postman collection, which can be imported into Postman.
