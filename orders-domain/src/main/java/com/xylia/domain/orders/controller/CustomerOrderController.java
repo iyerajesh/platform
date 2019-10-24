@@ -27,12 +27,13 @@ public class CustomerOrderController {
     }
 
     @GetMapping("/order/{customerId}")
-    public ResponseEntity<CustomerOrders> getCustomerOrderById(@PathVariable final String customerId) {
+    public ResponseEntity<?> getCustomerOrderById(@PathVariable final String customerId) {
 
         Optional<CustomerOrders> customerOrders = customerOrdersRepository.findById(customerId);
         if (customerOrders.isPresent())
             return ResponseEntity.ok(customerOrders.get());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CustomerOrders.builder().build());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Customer not found!");
     }
 
 
