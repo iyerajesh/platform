@@ -2,7 +2,7 @@
 
 ## Goal
 
-The system is composed of two spring boot micro services, which are built using Domain driven design principles, each with their own MongoDB database.
+The goal here is to demonstrate the CQRS pattern, using asynchronous event driven state transfer as the means of communication, between the services. The system is composed of two spring boot micro services, which are built using Domain driven design principles, each with their own MongoDB database.
 The micro services use a publish/subscribe model to communicate with each other, using Kafka based messaging. Each of these micro services expose a REST API, which becomes their interface to the channel applications.
 
 The first micro service is modelled around the `accounts` bounded context. 
@@ -30,20 +30,20 @@ Kafka also serves as a means of decoupling services from each one another, while
 ## Technology Stack
 
 Each domain service is built using Spring Boot 2.0 and Gradle. 
-Each Spring Boot service includes Spring boot actuator, Spring Data REST, Spring Data MongoDB, Spring for Apache Kafka, and SpringFox for API documentation. 
+Each Spring Boot service includes Spring boot actuator, Spring Data REST, Spring Data MongoDB, Spring for Apache Kafka, and SpringFox for API documentation. We use managed cloud versions of MongoDB and Kafka for the database, and the messaging platform respectively. 
 
 ### MongoDB Atlas
 
-MongoDB Atlas is a fully-managed MongoDB-as-a-Service, available on AWS, Azure, and GCP. For this example, I have created a free MongoDB atlas account, and setup a free, M0-sized MongoDB cluster on GCP in the us-central1 region. 
+MongoDB Atlas is a fully-managed MongoDB-as-a-Service, available on AWS, Azure, and GCP. For this example, I have created a free MongoDB atlas account, and setup a free, M0-sized MongoDB cluster on GCP in the `us-central1` region. 
 The M0-sized 3-data node cluster, with shared RAM and 512 MB of storage.
 
 ### Confluent Cloud
 Confluent Cloud is a fully-managed, cloud-based streaming service based on Apache Kafka. Confluent Cloud delivers a low-latency, resilient, scalable streaming service, deployable in minutes. 
-For this example, I have created a Kafka cluster in the us-central1 region on GCP.
+For this example, I have created a Kafka cluster in the `us-central1` region on GCP.
 
 ### Google Kubernetes Engine (GKE)
 Google Kubernetes Engine (GKE) provides a fully-managed, production-ready Kubernetes environment for deploying, managing, and scaling your containerized applications using Google infrastructure.
-For this example, I have created a Kubernetes cluster in GCP us-central1 region, which will allow me to deploy and manage the two micro services applications. Since Kafka and MongoDB clusters are also on the cloud, this makes the entire stack cloud native.
+For this example, I have created a Kubernetes cluster in `GCP us-central1` region, which will allow me to deploy and manage the two micro services applications. Since Kafka and MongoDB clusters are also on the cloud, this makes the entire stack cloud native.
  
 ## Deployment Infrastructure
 

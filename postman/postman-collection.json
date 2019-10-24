@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "f86214dc-4ab9-406d-b6ab-429d0a889723",
+		"name": "postman-collection",
+		"description": "Collection of APIs to test the customer state changes. ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://35.243.151.27/accounts/customer/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 12345,\n  \"name\": {\n    \"title\": \"Mr.\",\n    \"firstName\": \"Rajesh\",\n    \"middleName\": \"V.\",\n    \"lastName\": \"Iyer\",\n    \"suffix\": \"Jr.\"\n  },\n  \"contact\": {\n    \"primaryPhone\": \"555-666-7777\",\n    \"secondaryPhone\": \"555-444-9898\",\n    \"email\": \"john.doe@internet.com\"\n  },\n  \"addresses\": [\n    {\n      \"type\": \"BILLING\",\n      \"description\": \"My cc billing address\",\n      \"address1\": \"123 Oak Street\",\n      \"address2\": null,\n      \"city\": \"Sunrise\",\n      \"state\": \"CA\",\n      \"postalCode\": \"12345-6789\"\n    },\n    {\n      \"type\": \"SHIPPING\",\n      \"description\": \"My home address\",\n      \"address1\": \"123 Oak Street\",\n      \"address2\": null,\n      \"city\": \"Sunrise\",\n      \"state\": \"CA\",\n      \"postalCode\": \"12345-6789\"\n    }\n  ],\n  \"creditCards\": [\n    {\n      \"type\": \"PRIMARY\",\n      \"description\": \"VISA\",\n      \"number\": \"1234-6789-0000-0000\",\n      \"expiration\": \"6/19\",\n      \"nameOnCard\": \"John S. Doe\"\n    },\n    {\n      \"type\": \"ALTERNATE\",\n      \"description\": \"Corporate American Express\",\n      \"number\": \"9999-8888-7777-6666\",\n      \"expiration\": \"3/20\",\n      \"nameOnCard\": \"John Doe\"\n    }\n  ]\n}\n"
+				},
+				"url": {
+					"raw": "http://35.243.151.27/accounts/customer/create",
+					"protocol": "http",
+					"host": [
+						"35",
+						"243",
+						"151",
+						"27"
+					],
+					"path": [
+						"accounts",
+						"customer",
+						"create"
+					]
+				},
+				"description": "Create a new customer API on the accounts domain service"
+			},
+			"response": []
+		},
+		{
+			"name": "http://34.74.58.243/orders/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://34.74.58.243/orders/list",
+					"protocol": "http",
+					"host": [
+						"34",
+						"74",
+						"58",
+						"243"
+					],
+					"path": [
+						"orders",
+						"list"
+					]
+				},
+				"description": "Listing of all the orders, and their customer details on the orders micro service."
+			},
+			"response": []
+		},
+		{
+			"name": "http://34.74.58.243/orders/order/12345",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://34.74.58.243/orders/order/12345",
+					"protocol": "http",
+					"host": [
+						"34",
+						"74",
+						"58",
+						"243"
+					],
+					"path": [
+						"orders",
+						"order",
+						"12345"
+					]
+				},
+				"description": "Details API for a particular customer order."
+			},
+			"response": []
+		}
+	]
+}
