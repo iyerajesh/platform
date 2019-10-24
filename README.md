@@ -1,7 +1,5 @@
 # Example Application demonstrating the CQRS pattern
 
-See the source at: <http://wurstmeister.github.io/kafka-docker/>
-
 ## Goal
 
 The system is composed of two spring boot micro services, which are built using Domain driven design principles, each with their own MongoDB database.
