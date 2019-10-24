@@ -35,6 +35,4 @@ public class CustomerOrderController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Customer not found!");
     }
-
-
 }
