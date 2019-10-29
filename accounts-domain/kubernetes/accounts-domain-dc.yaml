@@ -36,60 +36,82 @@ spec:
         app: accounts
     spec:
       containers:
-      - name: accounts
-        image: gcr.io/xylia-platform/accounts-domain:2.0.10
-        resources:
-          requests:
-            memory: "800M"
-            cpu: "100m"
-          limits:
-            memory: "900M"
-            cpu: "250m"
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "gke"
-        - name: LOGGING_LEVEL_ROOT
-          value: "INFO"
-        - name: SPRING_DATA_MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              name: mongodb-atlas
-              key: mongodb.uri.accounts
-        - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: bootstrap.servers
-        - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: ssl.endpoint.identification.algorithm
-        - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: sasl.mechanism
-        - name: SPRING_KAFKA_PROPERTIES_REQUEST_TIMEOUT_MS
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: request.timeout.ms
-        - name: SPRING_KAFKA_PROPERTIES_RETRY_BACKOFF_MS
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: retry.backoff.ms
-        - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
-          valueFrom:
-            secretKeyRef:
-              name: confluent-cloud-kafka
-              key: sasl.jaas.config
-        - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
-          valueFrom:
-            configMapKeyRef:
-              name: confluent-cloud-kafka
-              key: security.protocol
-        ports:
-        - containerPort: 8080
-        imagePullPolicy: IfNotPresent
+        - name: accounts
+          image: gcr.io/xylia-platform/accounts-domain:2.0.10
+
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          resources:
+            requests:
+              memory: "800M"
+              cpu: "100m"
+            limits:
+              memory: "900M"
+              cpu: "250m"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "gke"
+            - name: LOGGING_LEVEL_ROOT
+              value: "INFO"
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas
+                  key: mongodb.uri.accounts
+            - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: bootstrap.servers
+            - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: ssl.endpoint.identification.algorithm
+            - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: sasl.mechanism
+            - name: SPRING_KAFKA_PROPERTIES_REQUEST_TIMEOUT_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: request.timeout.ms
+            - name: SPRING_KAFKA_PROPERTIES_RETRY_BACKOFF_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: retry.backoff.ms
+            - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: confluent-cloud-kafka
+                  key: sasl.jaas.config
+            - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
+              valueFrom:
+                configMapKeyRef:
+                  name: confluent-cloud-kafka
+                  key: security.protocol
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: IfNotPresent
