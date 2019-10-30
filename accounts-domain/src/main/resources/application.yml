@@ -39,7 +39,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: heapdump, loggers, prometheus, threaddump, info, metrics, health, hystrix.stream
+        include: heapdump, loggers, prometheus, threaddump, info, metrics, health, liveness, hystrix.stream
   health:
     defaults:
       enabled: false
