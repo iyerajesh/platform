@@ -39,7 +39,6 @@ public final class CloudEventBuilder<T> implements EventBuilder<T, AttributesImp
     private String datacontenttype;
     private String subject;
 
-
     private T data;
 
     private final Set<ExtensionFormat> extensions = new HashSet<>();
@@ -58,7 +57,7 @@ public final class CloudEventBuilder<T> implements EventBuilder<T, AttributesImp
     }
 
     public static <T> CloudEventBuilder<T> builder() {
-        return new CloudEventBuilder<>(null);
+        return new CloudEventBuilder<T>(null);
     }
 
     public CloudEventBuilder<T> withId(String id) {

@@ -26,10 +26,7 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
