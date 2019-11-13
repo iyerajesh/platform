@@ -1,4 +1,4 @@
-package com.xylia.platform.events.test;
+package com.xylia.platform.events.web;
 
 import com.xylia.platform.events.event.CustomerCreatedEvent;
 import com.xylia.platform.events.model.*;

@@ -1,4 +1,4 @@
-package com.xylia.platform.events.test;
+package com.xylia.platform.events.web;
 
 import com.xylia.platform.events.builder.CloudEventImpl;
 import com.xylia.platform.events.builder.CloudEventBuilder;
@@ -35,12 +35,6 @@ public class CloudEventController {
                 .withExtension(tracing)
                 .withExtension(tracing)
                 .build();
-
-
-//        final CloudEvent<CustomerCreatedEvent> cloudEvent = new CloudEventsBuilder<CustomerCreatedEvent>()
-//                .type(eventType)
-//                .data(payload)
-//                .build();
 
         return new ResponseEntity(cloudEvent, HttpStatus.CREATED);
     }
