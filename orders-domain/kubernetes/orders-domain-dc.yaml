@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: orders
-          image: gcr.io/xylia-platform/orders-domain:2.0.11
+          image: gcr.io/xylia-platform/orders-domain:2.0.13
 
           readinessProbe:
             httpGet:
