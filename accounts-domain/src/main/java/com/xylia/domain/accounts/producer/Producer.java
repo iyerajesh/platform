@@ -1,10 +1,11 @@
 package com.xylia.domain.accounts.producer;
 
-import com.xylia.domain.accounts.model.CustomerChangeEvent;
+import io.cloudevents.kafka.CloudEventsKafkaProducer;
+import io.cloudevents.v03.CloudEventImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.errors.CorruptRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,14 +13,16 @@ import org.springframework.stereotype.Service;
 public class Producer {
 
     @Autowired
-    private KafkaTemplate<String, CustomerChangeEvent> kafkaTemplate;
+    private CloudEventsKafkaProducer ceProducer;
 
-    public void send(String topic, CustomerChangeEvent payload) {
+    public void send(String topic, CloudEventImpl<String> cePayload) {
 
         try {
-            log.info("sending payload='{}' to topic='{}'", payload, topic);
-            kafkaTemplate.send(topic, payload);
+            log.info("sending CloudEvent payload='{}' to topic='{}'", cePayload, topic);
+
+            ceProducer.send(new ProducerRecord<>(topic, cePayload));
             log.info("completed payload sent!");
+
         } catch (CorruptRecordException e) {
             log.error("Exception while writing to Kafka: {}", e.getMessage());
         }
