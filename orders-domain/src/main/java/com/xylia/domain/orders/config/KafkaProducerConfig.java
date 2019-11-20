@@ -7,9 +7,7 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.kafka.ConcurrentKafkaListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -17,18 +15,15 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
-import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer2;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Configuration
 @EnableKafka
-public class KafkaConsumerConfig {
+public class KafkaProducerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -57,22 +52,16 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
 
-    @Autowired
-    private KafkaTemplate<String, Object> kafkaTemplate;
-
     @Bean
-    public Map<String, Object> consumerConfigs() {
+    public Map<String, Object> producerConfigs() {
+
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class);
-        props.put(ErrorHandlingDeserializer2.KEY_DESERIALIZER_CLASS, JsonDeserializer.class);
-        props.put(ErrorHandlingDeserializer2.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        props.put(JsonDeserializer.KEY_DEFAULT_TYPE, "java.lang.String");
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "com.test.kafka.Message");
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.test.kafka");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                ByteArraySerializer.class);
+
         props.put("ssl.endpoint.identification.algorithm", sslEndpointIdentificationAlgorithm);
         props.put("sasl.mechanism", saslMechanism);
         props.put("request.timeout.ms", requestTimeoutMs);
@@ -83,19 +72,16 @@ public class KafkaConsumerConfig {
         return props;
     }
 
+
     @Bean
-    public ConsumerFactory<String, Message> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(
-                consumerConfigs());
+    public ProducerFactory<String, Object> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Message> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        factory.setErrorHandler(new SeekToCurrentErrorHandler(
-                new DeadLetterPublishingRecoverer(kafkaTemplate), new FixedBackOff(0L, 2L)));
-        return factory;
+    public KafkaTemplate<String, Object> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
     }
+
 }
 
