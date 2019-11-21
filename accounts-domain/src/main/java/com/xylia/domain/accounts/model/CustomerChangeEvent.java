@@ -1,5 +1,7 @@
 package com.xylia.domain.accounts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,14 +18,18 @@ import java.util.List;
 public class CustomerChangeEvent {
 
     @Id
+    @JsonProperty
     private String id;
 
     @NotNull
+    @JsonProperty
     private Name name;
 
     @NotNull
+    @JsonProperty
     private Contact contact;
 
     @NotNull
+    @JsonIgnore
     private List<Address> addressList;
 }

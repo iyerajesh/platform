@@ -42,24 +42,24 @@ public class AfterSaveListener extends AbstractMongoEventListener<Customer> {
                 .contact(customer.getContact())
                 .build();
 
-        // add trace extension usin the in-memory format
-        final DistributedTracingExtension dt = new DistributedTracingExtension();
-        dt.setTraceparent("00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01");
-        dt.setTracestate("rojo=00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01");
+//        // add trace extension usin the in-memory format
+//        final DistributedTracingExtension dt = new DistributedTracingExtension();
+//        dt.setTraceparent("00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01");
+//        dt.setTracestate("rojo=00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01");
+//
+//        final ExtensionFormat tracing = new DistributedTracingExtension.Format(dt);
+//
+//        final CloudEventImpl payload = CloudEventBuilder.builder()
+//                .withId(UUID.randomUUID().toString())
+//                .withType(eventType)
+//                .withSource(URI.create("/accounts"))
+//                .withData(eventBody)
+//                .withExtension(tracing)
+//                .withExtension(tracing)
+//                .build();
 
-        final ExtensionFormat tracing = new DistributedTracingExtension.Format(dt);
 
-        final CloudEventImpl payload = CloudEventBuilder.builder()
-                .withId(UUID.randomUUID().toString())
-                .withType(eventType)
-                .withSource(URI.create("/accounts"))
-                .withData(eventBody)
-                .withExtension(tracing)
-                .withExtension(tracing)
-                .build();
-
-
-        producer.send(topic, payload);
+        producer.send(topic, eventBody);
     }
 
 }

@@ -5,6 +5,7 @@ import io.cloudevents.kafka.CloudEventsKafkaProducer;
 import io.cloudevents.v03.AttributesImpl;
 import io.cloudevents.v03.kafka.Marshallers;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,13 +47,13 @@ public class KafkaProducerConfig {
     private String saslJaasConfig;
 
     @Bean
-    public Properties producerConfigs() {
+    public Map<String, Object> producerConfigs() {
 
-        Properties props = new Properties();
+        Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                ByteArraySerializer.class);
+                StringSerializer.class);
 
         props.put("ssl.endpoint.identification.algorithm", sslEndpointIdentificationAlgorithm);
         props.put("sasl.mechanism", saslMechanism);
@@ -65,13 +66,19 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public CloudEventsKafkaProducer<String, AttributesImpl, String> producerFactory() {
-        return new
-                CloudEventsKafkaProducer<String, AttributesImpl, String>(producerConfigs(), Marshallers.binary());
+    public ProducerFactory<String, CustomerChangeEvent> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, CustomerChangeEvent> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
     }
 
 //    @Bean
-//    public KafkaTemplate<String, CustomerChangeEvent> kafkaTemplate() {
-//        return new KafkaTemplate(producerFactory());
+//    public CloudEventsKafkaProducer<String, AttributesImpl, String> producerFactory() {
+//        return new
+//                CloudEventsKafkaProducer<String, AttributesImpl, String>(producerConfigs(), Marshallers.binary());
 //    }
+
 }
