@@ -1,16 +1,13 @@
 package com.xylia.domain.orders.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.xylia.domain.orders.model.CustomerOrders;
 import com.xylia.domain.orders.repository.CustomerOrdersRepository;
+import com.xylia.domain.orders.util.Json;
 import io.cloudevents.v03.CloudEventImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.protocol.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.Headers;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -23,19 +20,27 @@ public class KafkaConsumer {
     private CustomerOrdersRepository customerOrdersRepository;
 
     private CountDownLatch latch = new CountDownLatch(1);
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public CountDownLatch getLatch() {
         return latch;
     }
 
     @KafkaListener(topics = "${spring.kafka.topic.accounts-customer}")
-    public void receiveCustomerOrder(String customerEvent) throws Exception {
+    public void receiveCustomerOrder(String payload) throws Exception {
 
+        log.info("cloud event payload='{}'", payload);
+
+        CloudEventImpl cloudEvent = Json.readValue(payload);
         CustomerOrders customerOrders =
-                mapper.readValue(customerEvent, CustomerOrders.class);
+                Json.MAPPER.convertValue(cloudEvent.getData().get(),
+                        new TypeReference<CustomerOrders>() {
+                        });
 
-        log.info("customer order payload='{}'", customerOrders);
+//        data.forEach((key, value) -> {
+//            log.info(key + " -> " + value);
+//        });
+
+        log.info("customer orders: {}", customerOrders);
         customerOrdersRepository.save(customerOrders);
     }
 

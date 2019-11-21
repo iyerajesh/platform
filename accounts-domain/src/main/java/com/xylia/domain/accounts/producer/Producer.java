@@ -3,6 +3,7 @@ package com.xylia.domain.accounts.producer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xylia.domain.accounts.model.CustomerChangeEvent;
+import io.cloudevents.json.Json;
 import io.cloudevents.kafka.CloudEventsKafkaProducer;
 import io.cloudevents.v03.CloudEventImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -19,22 +20,17 @@ public class Producer {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
-    public void send(String topic, CustomerChangeEvent customerChangeEvent) {
+    public void send(String topic, CloudEventImpl cloudEvent) {
 
         try {
-            log.info("sending CloudEvent payload='{}' to topic='{}'", customerChangeEvent, topic);
+            final String payloadString = Json.encode(cloudEvent);
 
-            ObjectMapper mapper = new ObjectMapper();
-            kafkaTemplate.send(topic, mapper.writeValueAsString(customerChangeEvent));
-
-            log.info("completed payload sent!");
+            kafkaTemplate.send(topic, payloadString);
+            log.info("sending CloudEvent payload='{}' to topic='{}'", payloadString, topic);
 
         } catch (CorruptRecordException e) {
             log.error("Exception while writing to Kafka: {}", e.getMessage());
-        } catch (JsonProcessingException je) {
-            log.error("Exception while converting JSON to string: {}", je.getMessage());
-
         }
-
     }
 }
+
