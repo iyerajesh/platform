@@ -47,6 +47,17 @@ public final class Json {
         return MAPPER.readValue(payload, CloudEventImpl.class);
     }
 
+    public static <T> T binaryDecodeValue(byte[] payload, final Class<T> clazz) {
+        if (null != payload) {
+            try {
+                return MAPPER.readValue(payload, clazz);
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to decode: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+
     private Json() {
         // no-op
     }

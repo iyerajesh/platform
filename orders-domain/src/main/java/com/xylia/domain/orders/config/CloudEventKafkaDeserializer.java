@@ -1,13 +1,13 @@
 package com.xylia.domain.orders.config;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xylia.domain.orders.util.Json;
+import io.cloudevents.v03.CloudEventImpl;
 import org.apache.kafka.common.serialization.Deserializer;
 
-import java.io.IOException;
 import java.util.Map;
 
-public class CloudEventKafkaDeserializer<T> implements Deserializer<String> {
+public class CloudEventKafkaDeserializer<T> implements Deserializer<CloudEventImpl> {
 
     private ObjectMapper mapper;
 
@@ -21,13 +21,7 @@ public class CloudEventKafkaDeserializer<T> implements Deserializer<String> {
     }
 
     @Override
-    public String deserialize(final String topic, final byte[] bytes) {
-
-        try {
-            return mapper.readValue(bytes, new TypeReference<String>() {
-            });
-        } catch (final IOException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public CloudEventImpl deserialize(final String topic, final byte[] payload) {
+        return Json.binaryDecodeValue(payload, CloudEventImpl.class);
     }
 }

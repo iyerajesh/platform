@@ -11,9 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer2;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,9 +59,9 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, CloudEventKafkaDeserializer.class);
         props.put(ErrorHandlingDeserializer2.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
-        props.put(ErrorHandlingDeserializer2.VALUE_DESERIALIZER_CLASS, StringDeserializer.class.getName());
+        props.put(ErrorHandlingDeserializer2.VALUE_DESERIALIZER_CLASS, CloudEventKafkaDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
         props.put("ssl.endpoint.identification.algorithm", sslEndpointIdentificationAlgorithm);
@@ -82,8 +84,8 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Message> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-//        factory.setErrorHandler(new SeekToCurrentErrorHandler(
-//                new DeadLetterPublishingRecoverer(kafkaTemplate), new FixedBackOff(0L, 2L)));
+        factory.setErrorHandler(new SeekToCurrentErrorHandler(
+                new DeadLetterPublishingRecoverer(kafkaTemplate), new FixedBackOff(0L, 2L)));
         return factory;
     }
 }

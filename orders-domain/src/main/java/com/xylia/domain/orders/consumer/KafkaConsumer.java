@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 
+import static com.xylia.domain.orders.util.Json.MAPPER;
+
 @Slf4j
 @Component
 public class KafkaConsumer {
@@ -26,13 +28,12 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "${spring.kafka.topic.accounts-customer}")
-    public void receiveCustomerOrder(String payload) throws Exception {
+    public void receiveCustomerOrder(CloudEventImpl payload) {
 
         log.info("cloud event payload='{}'", payload);
 
-        CloudEventImpl cloudEvent = Json.readValue(payload);
         CustomerOrders customerOrders =
-                Json.MAPPER.convertValue(cloudEvent.getData().get(),
+                MAPPER.convertValue(payload.getData().get(),
                         new TypeReference<CustomerOrders>() {
                         });
 
@@ -43,7 +44,6 @@ public class KafkaConsumer {
         log.info("customer orders: {}", customerOrders);
         customerOrdersRepository.save(customerOrders);
     }
-
 
     @KafkaListener(topics = "${spring.kafka.topic.accounts-customer}.DLT")
     public void dltWrite(String data) {
