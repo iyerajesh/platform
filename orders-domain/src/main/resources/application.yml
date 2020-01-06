@@ -3,11 +3,15 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+  http:
+    converters:
+      preferred-json-mapper: json-api
+
   application:
     name: orders
   data:
     mongodb:
-       uri: mongodb+srv://demo-user:HHLO3FN7g9pAFNkP@xylia-cluster-ii5ek.gcp.mongodb.net/orders
+      uri: mongodb+srv://demo-user:HHLO3FN7g9pAFNkP@xylia-cluster-ii5ek.gcp.mongodb.net/orders
 
   kafka:
     bootstrap-servers: pkc-43n10.us-central1.gcp.confluent.cloud:9092

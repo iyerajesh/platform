@@ -3,7 +3,7 @@ package com.xylia.domain.orders.consumer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xylia.domain.orders.model.CustomerOrders;
 import com.xylia.domain.orders.repository.CustomerOrdersRepository;
-import com.xylia.domain.orders.util.Json;
+import io.cloudevents.json.Json;
 import io.cloudevents.v03.CloudEventImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
-
-import static com.xylia.domain.orders.util.Json.MAPPER;
 
 @Slf4j
 @Component
@@ -33,7 +31,7 @@ public class KafkaConsumer {
         log.info("cloud event payload='{}'", payload);
 
         CustomerOrders customerOrders =
-                MAPPER.convertValue(payload.getData().get(),
+                Json.MAPPER.convertValue(payload.getData().get(),
                         new TypeReference<CustomerOrders>() {
                         });
 

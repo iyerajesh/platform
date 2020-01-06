@@ -1,14 +1,23 @@
 plugins {
+    id 'java'
+    id 'idea'
     id 'org.springframework.boot' version '2.1.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
-    id 'java'
-    id "io.freefair.lombok" version "4.1.2"
 }
 
 group = 'com.xylia.domain.accounts'
-version = '2.0.13'
+version = '2.0.20'
 sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://packagecloud.io/iyerajesh/platform/maven2"
+    }
+}
+
 
 configurations {
     compileOnly {
@@ -16,16 +25,10 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-
 ext {
     set('snippetsDir', file("build/generated-snippets"))
     set('springCloudVersion', "Greenwich.SR3")
     set('springFoxVersion', "2.9.2")
-
 }
 
 dependencies {
@@ -33,9 +36,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
-    compile 'com.gitlab.oliverlj:spring-boot-starter-json-api:master-SNAPSHOT'
 
-    // cloud events dependencies
+    // cloud events and JSON API dependencies
+    implementation 'io.xylia.platform:cloud-event-kafka-serializer:1.1.0'
+    implementation 'io.xylia.platform:jsonapi-converter-starter:1.0.1'
+
     implementation group: 'io.cloudevents', name: 'cloudevents-api', version: '1.0.0'
     implementation group: 'io.cloudevents', name: 'cloudevents-kafka', version: '1.0.0'
 
@@ -63,7 +68,9 @@ test {
     outputs.dir snippetsDir
 }
 
+
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+

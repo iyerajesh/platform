@@ -6,6 +6,7 @@ spring:
   http:
     converters:
       preferred-json-mapper: json-api
+
   application:
     name: accounts
   data:

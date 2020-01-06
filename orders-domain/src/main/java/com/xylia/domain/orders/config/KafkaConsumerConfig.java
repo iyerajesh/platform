@@ -1,6 +1,7 @@
 package com.xylia.domain.orders.config;
 
-import io.cloudevents.v03.CloudEventImpl;
+import io.xylia.platform.events.serialization.CloudEventKafkaDeserializer;
+import io.xylia.platform.events.serialization.CloudEventKafkaSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.protocol.Message;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -14,7 +15,6 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer2;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;

@@ -3,11 +3,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
-    id "io.freefair.lombok" version "4.1.2"
 }
 
 group = 'com.xylia.domain.orders'
-version = '2.0.14'
+version = '2.0.20'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -18,7 +17,12 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://packagecloud.io/iyerajesh/platform/maven2"
+    }
 }
+
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
@@ -37,9 +41,12 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // cloud events and JSON API dependencies
+    implementation 'io.xylia.platform:cloud-event-kafka-serializer:1.1.0'
+    implementation 'io.xylia.platform:jsonapi-converter-starter:1.0.1'
+
     // cloud events dependencies
     implementation group: 'io.cloudevents', name: 'cloudevents-api', version: '1.0.0'
-    implementation group: 'io.cloudevents', name: 'cloudevents-kafka', version: '1.0.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
@@ -64,3 +71,4 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
