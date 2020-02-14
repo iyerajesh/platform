@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: accounts
-          image: gcr.io/xylia-platform/accounts-domain:2.0.20
+          image: gcr.io/xylia-platform/accounts-domain:2.0.21
 
           readinessProbe:
             httpGet:
